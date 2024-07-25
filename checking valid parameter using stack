@@ -1,0 +1,52 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+bool validPara(string s)
+{
+    vector<char> stack;  // Use std::vector
+
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (s[i] == '{' || s[i] == '(' || s[i] == '[')
+        {
+            stack.push_back(s[i]);
+        }
+        else
+        {
+            if (stack.empty())  // Check if the stack is empty
+            {
+                return false;
+            }
+
+            if (s[i] == ')' && stack.back() == '(')
+            {
+                stack.pop_back();
+            }
+            else if (s[i] == '}' && stack.back() == '{')
+            {
+                stack.pop_back();
+            }
+            else if (s[i] == ']' && stack.back() == '[')
+            {
+                stack.pop_back();
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    return stack.empty();  // Return true if stack is empty, otherwise false
+}
+
+int main()
+{
+    string h = "[()]";
+    bool ans = validPara(h);
+    cout << (ans ? "Valid" : "Invalid") << endl;  // Correctly print the result
+    return 0;
+}
